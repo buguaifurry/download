@@ -3,34 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>资源下载中心</title>
+    <title>资源下载站</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;font-family:Microsoft YaHei,system-ui}
         html,body{width:100%;min-height:100%;background:#f0f4f9;}
-        /* 顶部蓝色导航 标题line-height:1.1，头像保持圆形 */
+        
+        /* 顶部导航 1:1对齐参考站位置 */
         .header{
             width:100%;
             background:linear-gradient(135deg,#3671e9,#2050c9);
-            padding:16px 3%;
+            padding: 12px 20px;
             display:flex;
             align-items:center;
-            gap:12px;
+            gap: 12px;
         }
+        /* 头像：默认42×42px */
         .avatar{
-            width:40px;
-            height:40px;
-            border-radius:50%;/* 圆形头像 */
+            width:42px;
+            height:42px;
+            border-radius:50%;
             object-fit:cover;
             border:2px solid #fff;
         }
+        /* 网站标题：默认24px */
         .header-text h1{
             color:#fff;
-            font-size:22px;
-            font-weight:600;
-            line-height:1.1;/* 要求1.1行高 */
-            letter-spacing:0.5px;
+            font-size:24px;
+            font-weight:500;
+            line-height:1.1;
         }
-        /* 分类按钮区域 */
+
+        /* 分类按钮 */
         .tab-box{
             width:96%;
             margin:24px auto 10px;
@@ -48,7 +51,6 @@
             cursor:pointer;
             position:relative;
         }
-        /* 选中文字底部浅蓝胶囊底色 */
         .tab-btn.active::after{
             content:"";
             position:absolute;
@@ -64,6 +66,7 @@
             position:relative;
             z-index:1;
         }
+
         /* 资源列表 */
         #fileWrap{
             width:96%;
@@ -88,24 +91,26 @@
         .download-btn:hover{background:#2050c9}
 
         @media(max-width:768px){
-            .header{padding:14px 4%;gap:10px}
-            .avatar{width:34px;height:34px;border-radius:50%;}/* 移动端依旧圆形 */
-            .header-text h1{font-size:19px;line-height:1.1}
+            .header{padding:12px 16px;gap:10px}
+            /* 移动端头像35×35px */
+            .avatar{width:35px;height:35px}
+            /* 移动端标题18px */
+            .header-text h1{font-size:18px}
             .tab-box,#fileWrap{width:98%}
             .file-item{flex-direction:column;gap:12px;align-items:flex-start}
         }
     </style>
 </head>
 <body>
-    <!-- 顶部蓝色导航 -->
+    <!-- 顶部：头像 + 阿布的资源网站（与主站完全同位置） -->
     <div class="header">
         <img class="avatar" src="IMG_20251109_114823.jpg" alt="头像">
         <div class="header-text">
-            <h1>资源下载中心</h1>
+            <h1>阿布的资源网站</h1>
         </div>
     </div>
 
-    <!-- 四个分类按钮 -->
+    <!-- 分类按钮 -->
     <div class="tab-box">
         <button class="tab-btn active" data-type="all"><span>全部资源</span></button>
         <button class="tab-btn" data-type="pc"><span>电脑资源</span></button>
@@ -118,25 +123,23 @@
 
     <script>
         let fileData = [
-            // {name:"示例文件.zip",url:"示例文件.zip",type:"pc"}
+            // {name:"示例文件.zip",url:"https://",type:"pc"}
         ]
         const wrap = document.getElementById('fileWrap')
         const tabs = document.querySelectorAll('.tab-btn')
 
-        // 渲染列表
         function render(type){
             wrap.innerHTML = ""
             let arr = type=="all"?fileData:fileData.filter(v=>v.type==type)
             arr.forEach(file=>{
                 let div = document.createElement('div')
                 div.className = 'file-item'
-                div.innerHTML = `<span class="file-name">${file.name}</span><a href="${file.url}" download class="download-btn">下载</a>`
+                div.innerHTML = `<span class="file-name">${file.name}</span><a href="${file.url}" target="_blank" class="download-btn">下载</a>`
                 wrap.appendChild(div)
             })
         }
         render('all')
 
-        // 切换选中
         tabs.forEach(btn=>{
             btn.onclick=()=>{
                 tabs.forEach(b=>b.classList.remove('active'))
