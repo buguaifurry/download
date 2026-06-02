@@ -16,6 +16,12 @@
             display:flex;
             align-items:center;
             gap: 12px;/*头像和文字间距固定12px*/
+            justify-content: space-between;
+        }
+        .header-left{
+            display: flex;
+            align-items: center;
+            gap:12px;
         }
         /* PC头像42px */
         .avatar{
@@ -31,6 +37,19 @@
             font-size:24px;
             font-weight:bold;
             line-height:1.1;
+        }
+        .back-index{
+            color:#fff;
+            text-decoration: none;
+            border:1px solid #fff;
+            padding:6px 12px;
+            border-radius:6px;
+            font-size:15px;
+            transition: 0.2s;
+        }
+        .back-index:hover{
+            background:#fff;
+            color:#2050c9;
         }
 
         /* 分类按钮 */
@@ -94,6 +113,7 @@
             .header{padding:12px 5%;gap:10px}/*手机同样5%左右留白，对齐参考站*/
             .avatar{width:35px;height:35px}
             .header-text h1{font-size:18px;font-weight:bold;}
+            .back-index{font-size:13px;padding:5px 8px;}
             .tab-box,#fileWrap{width:92%}
             .file-item{flex-direction:column;gap:12px;align-items:flex-start}
         }
@@ -101,10 +121,13 @@
 </head>
 <body>
     <div class="header">
-        <img class="avatar" src="IMG_20251109_114823.jpg" alt="头像">
-        <div class="header-text">
-            <h1>资源下载中心</h1>
+        <div class="header-left">
+            <img class="avatar" src="IMG_20251109_114823.jpg" alt="头像">
+            <div class="header-text">
+                <h1>资源下载中心</h1>
+            </div>
         </div>
+        <a href="https://buguaifurry.github.io/" class="back-index">←返回首页</a>
     </div>
 
     <div class="tab-box">
