@@ -6,46 +6,74 @@
     <title>阿布的资源下载站</title>
     <style>
         *{margin:0;padding:0;box-sizing:border-box;font-family:Microsoft YaHei,system-ui}
-        html,body{width:100%;min-height:100%;background:#f0f4f9;padding:0}
-        /* 导航栏收窄高度 */
+        html,body{width:100%;min-height:100%;background:#f0f4f9;}
+        /* 顶部蓝色导航 */
         .header{
             width:100%;
             background:linear-gradient(135deg,#3671e9,#2050c9);
-            padding:12px 24px;
+            padding:14px 3%;
             display:flex;
             align-items:center;
-            gap:16px;
+            gap:14px;
         }
-        /* 缩小头像尺寸 */
         .avatar{
-            width:60px;
-            height:60px;
+            width:44px;
+            height:44px;
             border-radius:50%;
             object-fit:cover;
             border:2px solid #fff;
-            box-shadow:0 2px 8px #0002;
         }
         .header-text h1{
             color:#fff;
-            font-size:22px;
+            font-size:20px;
+            font-weight:500;
         }
-        /* PC容器全屏拉伸 */
-        .container{
+        /* 分类按钮区域 */
+        .tab-box{
             width:96%;
-            margin:30px auto;
+            margin:24px auto 10px;
+            display:flex;
+            gap:10px;
+        }
+        .tab-btn{
+            flex:1;
+            border:none;
             background:#ffffff;
-            border-radius:14px;
-            box-shadow:0 3px 18px rgba(32,80,201,0.12);
-            padding:25px
+            color:#2050c9;
+            font-size:15px;
+            padding:9px 0;
+            border-radius:6px;
+            cursor:pointer;
+            position:relative;
+        }
+        /* 选中文字底部浅蓝胶囊底色 */
+        .tab-btn.active::after{
+            content:"";
+            position:absolute;
+            left:15%;
+            right:15%;
+            bottom:3px;
+            height:18px;
+            background:#dce8fc;
+            border-radius:30px;
+            z-index:0;
+        }
+        .tab-btn span{
+            position:relative;
+            z-index:1;
+        }
+        /* 资源列表 */
+        #fileWrap{
+            width:96%;
+            margin:0 auto;
         }
         .file-item{
             display:flex;
             justify-content:space-between;
             align-items:center;
             padding:18px 12px;
-            border-bottom:1px solid #eee
+            border-bottom:1px solid #ddd;
         }
-        .file-item:last-child{border-bottom:none}
         .file-name{font-size:16px;color:#222}
         .download-btn{
             background:#3671e9;
@@ -57,17 +85,17 @@
         }
         .download-btn:hover{background:#2050c9}
 
-        /* 移动端 */
         @media(max-width:768px){
-            .header{padding:10px 15px;gap:12px}
-            .avatar{width:48px;height:48px}
-            .header-text h1{font-size:18px}
-            .container{width:98%}
+            .header{padding:12px 4%;gap:10px}
+            .avatar{width:38px;height:38px}
+            .header-text h1{font-size:17px}
+            .tab-box,#fileWrap{width:98%}
             .file-item{flex-direction:column;gap:12px;align-items:flex-start}
         }
     </style>
 </head>
 <body>
+    <!-- 顶部蓝色导航 -->
     <div class="header">
         <img class="avatar" src="IMG_20251109_114823.jpg" alt="头像">
         <div class="header-text">
@@ -75,21 +103,44 @@
         </div>
     </div>
 
-    <div class="container" id="fileWrap"></div>
+    <!-- 四个分类按钮 -->
+    <div class="tab-box">
+        <button class="tab-btn active" data-type="all"><span>全部资源</span></button>
+        <button class="tab-btn" data-type="pc"><span>电脑资源</span></button>
+        <button class="tab-btn" data-type="mobile"><span>手机资源</span></button>
+        <button class="tab-btn" data-type="soft"><span>软件资源</span></button>
+    </div>
+
+    <!-- 文件列表 -->
+    <div id="fileWrap"></div>
 
     <script>
         let fileData = [
-            // {name:"示例文件.zip",url:"示例文件.zip"}
+            // {name:"示例文件.zip",url:"示例文件.zip",type:"pc"}
         ]
         const wrap = document.getElementById('fileWrap')
-        fileData.forEach(file=>{
-            let dom = document.createElement('div')
-            dom.className = 'file-item'
-            dom.innerHTML = `
-                <span class="file-name">${file.name}</span>
-                <a href="${file.url}" download class="download-btn">下载</a>
-            `
-            wrap.appendChild(dom)
+        const tabs = document.querySelectorAll('.tab-btn')
+
+        // 渲染列表
+        function render(type){
+            wrap.innerHTML = ""
+            let arr = type=="all"?fileData:fileData.filter(v=>v.type==type)
+            arr.forEach(file=>{
+                let div = document.createElement('div')
+                div.className = 'file-item'
+                div.innerHTML = `<span class="file-name">${file.name}</span><a href="${file.url}" download class="download-btn">下载</a>`
+                wrap.appendChild(div)
+            })
+        }
+        render('all')
+
+        // 切换选中
+        tabs.forEach(btn=>{
+            btn.onclick=()=>{
+                tabs.forEach(b=>b.classList.remove('active'))
+                btn.classList.add('active')
+                render(btn.dataset.type)
+            }
         })
     </script>
 </body>
