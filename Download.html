@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download 资源下载站</title>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box;font-family:Microsoft YaHei,system-ui}
+        html,body{width:100%;min-height:100%;background:#f0f4f9;padding:0}
+        /* 导航栏收窄高度 */
+        .header{
+            width:100%;
+            background:linear-gradient(135deg,#3671e9,#2050c9);
+            padding:12px 24px;
+            display:flex;
+            align-items:center;
+            gap:16px;
+        }
+        /* 缩小头像尺寸 */
+        .avatar{
+            width:60px;
+            height:60px;
+            border-radius:50%;
+            object-fit:cover;
+            border:2px solid #fff;
+            box-shadow:0 2px 8px #0002;
+        }
+        .header-text h1{
+            color:#fff;
+            font-size:22px;
+        }
+        /* PC容器全屏拉伸 */
+        .container{
+            width:96%;
+            margin:30px auto;
+            background:#ffffff;
+            border-radius:14px;
+            box-shadow:0 3px 18px rgba(32,80,201,0.12);
+            padding:25px
+        }
+        .file-item{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:18px 12px;
+            border-bottom:1px solid #eee
+        }
+        .file-item:last-child{border-bottom:none}
+        .file-name{font-size:16px;color:#222}
+        .download-btn{
+            background:#3671e9;
+            color:#fff;
+            text-decoration:none;
+            padding:9px 22px;
+            border-radius:8px;
+            transition:0.2s
+        }
+        .download-btn:hover{background:#2050c9}
+
+        /* 移动端 */
+        @media(max-width:768px){
+            .header{padding:10px 15px;gap:12px}
+            .avatar{width:48px;height:48px}
+            .header-text h1{font-size:18px}
+            .container{width:98%}
+            .file-item{flex-direction:column;gap:12px;align-items:flex-start}
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img class="avatar" src="IMG_20251109_114823.jpg" alt="头像">
+        <div class="header-text">
+            <h1>资源下载中心</h1>
+        </div>
+    </div>
+
+    <div class="container" id="fileWrap"></div>
+
+    <script>
+        let fileData = [
+            // {name:"示例文件.zip",url:"示例文件.zip"}
+        ]
+        const wrap = document.getElementById('fileWrap')
+        fileData.forEach(file=>{
+            let dom = document.createElement('div')
+            dom.className = 'file-item'
+            dom.innerHTML = `
+                <span class="file-name">${file.name}</span>
+                <a href="${file.url}" download class="download-btn">下载</a>
+            `
+            wrap.appendChild(dom)
+        })
+    </script>
+</body>
+</html>
